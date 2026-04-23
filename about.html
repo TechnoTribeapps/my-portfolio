@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Lilac Craft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Jost',sans-serif; background:#fff9f5; color:#2c241a; cursor:none; }
+        :root { --lilac-bright: #c77dff; --lilac-dark: #9b4dff; --lilac-light: #f0e4ff; }
+        .cursor-dot { position:fixed; width:8px; height:8px; background:var(--lilac-bright); border-radius:50%; pointer-events:none; z-index:10000; transform:translate(-50%,-50%); }
+        .cursor-outline { position:fixed; width:40px; height:40px; border:2px solid var(--lilac-bright); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:0.08s linear; }
+        #sparkCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10001; }
+        .loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#fff9f5; z-index:20000; display:flex; align-items:center; justify-content:center; transition:0.5s; }
+        .loader.fade-out { opacity:0; visibility:hidden; }
+        nav { position:fixed; top:0; left:0; width:100%; background:rgba(255,250,245,0.96); backdrop-filter:blur(12px); padding:20px 50px; z-index:1000; display:flex; justify-content:space-between; align-items:center; }
+        .logo { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:700; color:var(--lilac-dark); }
+        .logo span { color:var(--lilac-bright); }
+        .nav-links { display:flex; gap:40px; list-style:none; }
+        .nav-links a { text-decoration:none; color:#2c241a; font-weight:500; }
+        .nav-links a:hover, .nav-links a.active { color:var(--lilac-bright); }
+        .menu-icon { display:none; font-size:28px; cursor:pointer; color:var(--lilac-dark); }
+        .container { max-width:1400px; margin:auto; padding:0 8%; }
+        .about-hero { background: linear-gradient(135deg, #f7efff, #fff); padding: 160px 0 80px; text-align:center; }
+        .about-hero h1 { font-family:'Cormorant Garamond'; font-size:72px; color:var(--lilac-dark); }
+        .btn { background:var(--lilac-bright); padding:12px 32px; border-radius:50px; text-decoration:none; color:#2c241a; font-weight:600; display:inline-block; margin-top:20px; border:none; cursor:pointer; }
+        .btn:hover { background:var(--lilac-dark); color:white; }
+        .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:40px; margin:60px 0; }
+        .team-card { text-align:center; }
+        .team-img { width:100%; aspect-ratio:1; background-size:cover; border-radius:50%; margin-bottom:20px; }
+        footer { background:#2c241a; color:#d4c5b5; padding:60px 8% 30px; margin-top:80px; }
+        .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:40px; }
+        .footer-grid h4 { color:var(--lilac-bright); }
+        @media (max-width:768px) {
+            .menu-icon { display:block; }
+            .nav-links { position:fixed; top:80px; left:-100%; width:100%; background:rgba(255,250,245,0.98); flex-direction:column; align-items:center; transition:0.3s; }
+            .nav-links.active { left:0; }
+            .about-hero h1 { font-size:48px; }
+            .cursor-dot, .cursor-outline { display:none; }
+            body { cursor:auto; }
+        }
+        .reveal { opacity:0; transform:translateY(40px); transition:0.8s; }
+        .reveal.active { opacity:1; transform:translateY(0); }
+    </style>
+</head>
+<body>
+<div class="loader" id="loader"><div style="font-size:24px; color:var(--lilac-bright);">Lilac Craft <i class="fas fa-spinner fa-pulse"></i></div></div>
+<canvas id="sparkCanvas"></canvas>
+<div class="cursor-dot" id="cursorDot"></div><div class="cursor-outline" id="cursorOutline"></div>
+<nav><div class="logo">LILAC <span>CRAFT</span></div><div class="menu-icon" id="menuIcon"><i class="fas fa-bars"></i></div><ul class="nav-links" id="navLinks"><li><a href="index.html">Home</a></li><li><a href="about.html" class="active">About</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+
+<section class="about-hero"><h1>Our <em>Story</em></h1><p style="max-width:700px; margin:20px auto;">For over a decade, Lilac Craft has been redefining interiors with bespoke carpentry and timeless design.</p></section>
+<div class="container">
+    <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:60px; margin:60px 0;">
+        <div><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" style="width:100%; border-radius:30px;"></div>
+        <div><h2 style="font-family:'Cormorant Garamond'; font-size:48px; color:var(--lilac-dark);">Craftsmanship <em>Redefined</em></h2><p style="margin-top:20px;">We blend traditional joinery techniques with modern design, creating spaces that are both functional and artistic. Every project is a collaboration between our designers and master carpenters.</p><a href="contact.html" class="btn">Work With Us</a></div>
+    </div>
+    <h2 class="reveal" style="font-family:'Cormorant Garamond'; font-size:52px; text-align:center; margin:80px 0 40px;">The Artisans</h2>
+    <div class="team-grid">
+        <div class="team-card reveal"><div class="team-img" style="background-image:url('https://randomuser.me/api/portraits/women/68.jpg');"></div><h3>Nadia Khalil</h3><p>Lead Designer</p></div>
+        <div class="team-card reveal"><div class="team-img" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg');"></div><h3>Omar Hassan</h3><p>Master Carpenter</p></div>
+        <div class="team-card reveal"><div class="team-img" style="background-image:url('https://randomuser.me/api/portraits/women/45.jpg');"></div><h3>Layla Noor</h3><p>Project Director</p></div>
+        <div class="team-card reveal"><div class="team-img" style="background-image:url('https://randomuser.me/api/portraits/men/75.jpg');"></div><h3>Ahmed Rashed</h3><p>Fit-out Specialist</p></div>
+    </div>
+</div>
+<footer><div class="footer-grid"><div><h4>Lilac Craft</h4><p>Premium interiors & carpentry</p></div><div><h4>Contact</h4><p>+971 4 123 4567<br>hello@lilacraft.ae</p></div><div><h4>Location</h4><p>Dubai Design District</p></div><div><h4>Follow</h4><p><i class="fab fa-instagram"></i> <i class="fab fa-linkedin"></i></p></div></div><div style="text-align:center; margin-top:40px;">© 2025 Lilac Craft</div></footer>
+<script>
+    // Loader
+    window.addEventListener('load',()=>{document.getElementById('loader').classList.add('fade-out');setTimeout(()=>{document.getElementById('loader').style.display='none';},500);});
+    // Fast cursor
+    const dot=document.getElementById('cursorDot'), outline=document.getElementById('cursorOutline');
+    document.addEventListener('mousemove',(e)=>{dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px'; outline.style.left=e.clientX+'px'; outline.style.top=e.clientY+'px';});
+    // Spark effect
+    const canvas = document.getElementById('sparkCanvas');
+    const ctx = canvas.getContext('2d');
+    let sparks = [];
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    function createSpark(x,y) { for(let i=0;i<12;i++) { const angle=Math.random()*Math.PI*2; const speed=Math.random()*3+2; sparks.push({ x:x,y:y, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed, life:1, size:Math.random()*4+2, color:`hsl(${260+Math.random()*40},100%,65%)` }); } }
+    function animateSparks() { ctx.clearRect(0,0,canvas.width,canvas.height); for(let i=sparks.length-1;i>=0;i--) { const s=sparks[i]; s.x+=s.vx; s.y+=s.vy; s.vy+=0.2; s.life-=0.03; if(s.life<=0||s.y>canvas.height+100){sparks.splice(i,1);continue;} ctx.globalAlpha=s.life*0.8; ctx.fillStyle=s.color; ctx.beginPath(); ctx.arc(s.x,s.y,s.size*s.life,0,Math.PI*2); ctx.fill(); } requestAnimationFrame(animateSparks); }
+    animateSparks();
+    document.addEventListener('click',(e)=>{ createSpark(e.clientX,e.clientY); const flash=document.createElement('div'); flash.style.position='fixed'; flash.style.top=e.clientY-15+'px'; flash.style.left=e.clientX-15+'px'; flash.style.width='30px'; flash.style.height='30px'; flash.style.background='radial-gradient(circle, #c77dff, transparent)'; flash.style.borderRadius='50%'; flash.style.pointerEvents='none'; flash.style.zIndex='10002'; document.body.appendChild(flash); setTimeout(()=>flash.remove(),200); });
+    document.getElementById('menuIcon').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+    const reveals=document.querySelectorAll('.reveal'); const obs=new IntersectionObserver((e)=>e.forEach(ee=>{if(ee.isIntersecting) ee.target.classList.add('active');}),{threshold:0.1}); reveals.forEach(r=>obs.observe(r));
+    // Hover effects for cursor
+    document.querySelectorAll('a, button, .team-card').forEach(el => { el.addEventListener('mouseenter',()=>{dot.style.width='14px'; dot.style.height='14px'; outline.style.width='55px'; outline.style.height='55px';}); el.addEventListener('mouseleave',()=>{dot.style.width='8px'; dot.style.height='8px'; outline.style.width='40px'; outline.style.height='40px';}); });
+</script>
+</body>
+</html>
