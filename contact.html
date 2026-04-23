@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Lilac Craft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Jost',sans-serif; background:#fefaf5; color:#2c241a; }
+        .cursor-dot,.cursor-outline { position:fixed; pointer-events:none; z-index:10000; }
+        .cursor-dot { width:6px; height:6px; background:#b89fd4; border-radius:50%; transform:translate(-50%,-50%); }
+        .cursor-outline { width:35px; height:35px; border:1.5px solid #b89fd4; border-radius:50%; transform:translate(-50%,-50%); transition:0.1s; }
+        .loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#fefaf5; z-index:20000; display:flex; align-items:center; justify-content:center; transition:0.5s; }
+        .loader.fade-out { opacity:0; visibility:hidden; }
+        nav { position:fixed; top:0; left:0; width:100%; background:rgba(254,250,245,0.95); backdrop-filter:blur(12px); padding:20px 50px; z-index:1000; display:flex; justify-content:space-between; align-items:center; }
+        .logo { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:700; color:#5d3a7a; }
+        .logo span { color:#b89fd4; }
+        .nav-links { display:flex; gap:40px; list-style:none; }
+        .nav-links a { text-decoration:none; color:#2c241a; font-weight:500; }
+        .nav-links a:hover,.nav-links a.active { color:#b89fd4; }
+        .menu-icon { display:none; font-size:28px; cursor:pointer; }
+        .container { max-width:1400px; margin:auto; padding:0 8%; }
+        .contact-hero { background: linear-gradient(135deg, #f5edfa, #fff); padding: 160px 0 80px; text-align:center; }
+        .contact-hero h1 { font-family:'Cormorant Garamond'; font-size:72px; color:#5d3a7a; }
+        .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; margin:60px 0; }
+        .contact-info { background:white; padding:40px; border-radius:30px; box-shadow:0 15px 35px rgba(0,0,0,0.02); }
+        .contact-info i { font-size:32px; color:#b89fd4; margin-right:15px; }
+        .contact-form input, .contact-form textarea { width:100%; padding:15px; margin:10px 0; border:1px solid #e0d0ec; border-radius:30px; background:#fff; }
+        .btn { background:#b89fd4; padding:14px 36px; border-radius:50px; text-decoration:none; color:#2c241a; font-weight:600; display:inline-block; border:none; cursor:pointer; }
+        footer { background:#2c241a; color:#d4c5b5; padding:60px 8% 30px; margin-top:80px; }
+        .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:40px; }
+        @media (max-width:768px) {
+            .menu-icon { display:block; }
+            .nav-links { position:fixed; top:80px; left:-100%; width:100%; background:rgba(254,250,245,0.98); flex-direction:column; align-items:center; transition:0.3s; }
+            .nav-links.active { left:0; }
+            .contact-grid { grid-template-columns:1fr; }
+            .contact-hero h1 { font-size:48px; }
+            .cursor-dot,.cursor-outline { display:none; }
+        }
+        .reveal { opacity:0; transform:translateY(40px); transition:0.8s; }
+        .reveal.active { opacity:1; transform:translateY(0); }
+    </style>
+</head>
+<body>
+<div class="loader" id="loader"><div style="font-size:24px; color:#b89fd4;">Lilac Craft <i class="fas fa-spinner fa-pulse"></i></div></div>
+<div class="cursor-dot" id="cursorDot"></div><div class="cursor-outline" id="cursorOutline"></div>
+<nav><div class="logo">LILAC <span>CRAFT</span></div><div class="menu-icon" id="menuIcon"><i class="fas fa-bars"></i></div><ul class="nav-links" id="navLinks"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="contact.html" class="active">Contact</a></li></ul></nav>
+
+<section class="contact-hero"><h1>Let's <em>Talk</em></h1><p>Reach out for a free consultation. We'll bring your vision to life.</p></section>
+<div class="container">
+    <div class="contact-grid">
+        <div class="contact-info reveal">
+            <h2>Get in Touch</h2><br>
+            <p><i class="fas fa-map-marker-alt"></i> Dubai Design District, UAE</p>
+            <p><i class="fas fa-phone"></i> +971 4 123 4567</p>
+            <p><i class="fas fa-envelope"></i> hello@lilacraft.ae</p>
+            <p><i class="fas fa-clock"></i> Mon - Sat: 9am - 7pm</p>
+        </div>
+        <div class="contact-form reveal">
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Email Address">
+            <input type="text" placeholder="Phone (optional)">
+            <textarea rows="5" placeholder="Tell us about your project..."></textarea>
+            <button class="btn">Send Message <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
+<footer><div class="footer-grid"><div><h4>Lilac Craft</h4><p>Premium interiors & carpentry</p></div><div><h4>Contact</h4><p>+971 4 123 4567<br>hello@lilacraft.ae</p></div><div><h4>Location</h4><p>Dubai Design District</p></div><div><h4>Follow</h4><p><i class="fab fa-instagram"></i> <i class="fab fa-linkedin"></i></p></div></div><div style="text-align:center; margin-top:40px;">© 2025 Lilac Craft</div></footer>
+<script>
+    window.addEventListener('load',()=>{document.getElementById('loader').classList.add('fade-out');setTimeout(()=>{document.getElementById('loader').style.display='none';},500);});
+    const dot=document.getElementById('cursorDot'), outline=document.getElementById('cursorOutline');
+    document.addEventListener('mousemove',(e)=>{dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px'; outline.style.left=e.clientX+'px'; outline.style.top=e.clientY+'px';});
+    document.getElementById('menuIcon').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+    const reveals=document.querySelectorAll('.reveal'); const obs=new IntersectionObserver((e)=>e.forEach(ee=>{if(ee.isIntersecting) ee.target.classList.add('active');}),{threshold:0.1}); reveals.forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>

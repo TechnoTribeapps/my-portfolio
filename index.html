@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lilac Craft | Luxury Interior Design & Carpentry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Jost', sans-serif;
+            background: #fff9f5;
+            color: #2c241a;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        /* Brighter Lilac Colors */
+        :root {
+            --lilac-bright: #c77dff;
+            --lilac-dark: #9b4dff;
+            --lilac-light: #f0e4ff;
+            --cream-bright: #fffaf5;
+        }
+        /* Custom Cursor - Fast (no lag) */
+        .cursor-dot {
+            position: fixed; width: 8px; height: 8px;
+            background: var(--lilac-bright);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.1s, height 0.1s;
+        }
+        .cursor-outline {
+            position: fixed; width: 40px; height: 40px;
+            border: 2px solid var(--lilac-bright);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: 0.08s linear;
+        }
+        /* Spark Effect Canvas */
+        #sparkCanvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10001;
+        }
+        /* Loader */
+        .loader {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: var(--cream-bright); z-index:20000;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.5s;
+        }
+        .loader.fade-out { opacity:0; visibility:hidden; }
+        /* Navigation */
+        nav {
+            position: fixed; top:0; left:0; width:100%;
+            background: rgba(255,250,245,0.96);
+            backdrop-filter: blur(12px);
+            padding: 20px 50px;
+            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.02);
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px; font-weight: 700;
+            color: var(--lilac-dark);
+        }
+        .logo span { color: var(--lilac-bright); }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links a {
+            text-decoration: none; color: #2c241a;
+            font-weight: 500; transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--lilac-bright); }
+        .menu-icon { display: none; font-size: 28px; cursor: pointer; color: var(--lilac-dark); }
+        /* Hero with Image */
+        .hero {
+            position: relative; height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+                        url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1600&q=80') center/cover no-repeat;
+            background-attachment: fixed;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            margin-top: 80px;
+        }
+        .hero-content h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 90px; font-weight: 400;
+            color: white;
+            text-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        .hero-content h1 em { color: var(--lilac-light); font-style: italic; }
+        .btn {
+            display: inline-block;
+            background: var(--lilac-bright);
+            color: #2c241a;
+            padding: 14px 42px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background: var(--lilac-dark); color: white; transform: translateY(-3px); }
+        /* Common Sections */
+        section { padding: 100px 8%; }
+        .container { max-width: 1400px; margin: auto; }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 58px; font-weight: 500;
+            text-align: center; margin-bottom: 60px;
+            color: var(--lilac-dark);
+        }
+        .section-title em { color: var(--lilac-bright); font-style: italic; }
+        /* Services Grid */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+            gap: 40px;
+        }
+        .service-card {
+            background: white; padding: 40px; border-radius: 30px;
+            transition: 0.4s; box-shadow: 0 15px 35px rgba(0,0,0,0.02);
+            border: 1px solid #f0e4ff; text-align: center;
+        }
+        .service-card:hover { transform: translateY(-15px); border-color: var(--lilac-bright); box-shadow: 0 25px 45px rgba(199,125,255,0.15); }
+        .service-card i { font-size: 48px; color: var(--lilac-bright); margin-bottom: 20px; }
+        /* Stats Counter */
+        .stats {
+            background: linear-gradient(135deg, #f7efff, #fff);
+            border-radius: 70px; padding: 70px;
+            display: flex; justify-content: space-around; flex-wrap: wrap;
+            text-align: center; margin: 40px 0;
+        }
+        .stat-item h2 { font-size: 64px; font-family: 'Cormorant Garamond'; color: var(--lilac-dark); }
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+            gap: 25px;
+        }
+        .portfolio-item {
+            position: relative; height: 320px;
+            background-size: cover; background-position: center;
+            border-radius: 24px; overflow: hidden; cursor: pointer;
+        }
+        .portfolio-overlay {
+            position: absolute; inset: 0;
+            background: rgba(155,77,255,0.75);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s;
+            color: white; font-size: 24px; font-weight: bold;
+        }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        /* Testimonial */
+        .testimonial {
+            background: var(--lilac-dark); color: white;
+            padding: 80px; border-radius: 60px;
+            text-align: center; margin: 60px 0;
+        }
+        .testimonial p { font-size: 28px; font-family: 'Cormorant Garamond'; font-style: italic; }
+        /* Footer */
+        footer {
+            background: #2c241a; color: #d4c5b5;
+            padding: 60px 8% 30px; margin-top: 80px;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 40px;
+        }
+        .footer-grid h4 { color: var(--lilac-bright); margin-bottom: 20px; }
+        /* Back to top */
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--lilac-bright); width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #2c241a; font-size: 20px; text-decoration: none;
+            opacity: 0; transition: 0.3s; z-index: 100;
+        }
+        .back-to-top.show { opacity: 1; }
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content h1 { font-size: 60px; }
+            .section-title { font-size: 44px; }
+            nav { padding: 15px 30px; }
+        }
+        @media (max-width: 768px) {
+            .menu-icon { display: block; }
+            .nav-links {
+                position: fixed; top: 80px; left: -100%;
+                width: 100%; background: rgba(255,250,245,0.98);
+                flex-direction: column; align-items: center;
+                padding: 40px 0; transition: 0.3s; gap: 25px;
+            }
+            .nav-links.active { left: 0; }
+            .hero { margin-top: 70px; background-attachment: scroll; }
+            .hero-content h1 { font-size: 42px; }
+            .stats { padding: 40px; }
+            .stat-item h2 { font-size: 40px; }
+            .testimonial p { font-size: 20px; }
+            .cursor-dot, .cursor-outline { display: none; }
+            body { cursor: auto; }
+        }
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<div class="loader" id="loader"><div style="font-size: 24px; color: var(--lilac-bright);">Lilac Craft <i class="fas fa-spinner fa-pulse"></i></div></div>
+<canvas id="sparkCanvas"></canvas>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-outline" id="cursorOutline"></div>
+
+<nav>
+    <div class="logo">LILAC <span>CRAFT</span></div>
+    <div class="menu-icon" id="menuIcon"><i class="fas fa-bars"></i></div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Lilac <em>Craft</em><br>Interior Design & Decor</h1>
+        <a href="contact.html" class="btn">Start Your Project</a>
+    </div>
+</section>
+
+<div class="container">
+    <div class="stats reveal">
+        <div class="stat-item"><h2 id="years">0</h2><p>Years Experience</p></div>
+        <div class="stat-item"><h2 id="projects">0</h2><p>Projects Done</p></div>
+        <div class="stat-item"><h2 id="clients">0</h2><p>Happy Clients</p></div>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <h2 class="section-title reveal">Our <em>Signature Services</em></h2>
+        <div class="services-grid">
+            <div class="service-card reveal"><i class="fas fa-hammer"></i><h3>Bespoke Carpentry</h3><p>Handcrafted wardrobes, kitchens, staircases & wooden masterpieces.</p></div>
+            <div class="service-card reveal"><i class="fas fa-drafting-compass"></i><h3>Interior Design</h3><p>Full-service design, 3D renders, mood boards, and styling.</p></div>
+            <div class="service-card reveal"><i class="fas fa-building"></i><h3>Turnkey Fit-Out</h3><p>Complete villa, apartment, and commercial renovation solutions.</p></div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2 class="section-title reveal">Recent <em>Masterpieces</em></h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item reveal" style="background-image: url('https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80');"><div class="portfolio-overlay">View Project</div></div>
+            <div class="portfolio-item reveal" style="background-image: url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80');"><div class="portfolio-overlay">View Project</div></div>
+            <div class="portfolio-item reveal" style="background-image: url('https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&q=80');"><div class="portfolio-overlay">View Project</div></div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="testimonial reveal">
+        <p>“Lilac Craft transformed our villa with stunning carpentry. Every detail is perfection.”</p>
+        <h4>— Fatima Al Mansouri, Dubai</h4>
+    </div>
+</div>
+
+<section style="text-align:center;">
+    <div class="container">
+        <h2 class="section-title reveal">Let's Create <em>Something Beautiful</em></h2>
+        <a href="contact.html" class="btn">Book Free Consultation</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div><h4>Lilac Craft</h4><p>Premium interior design & carpentry since 2012</p></div>
+        <div><h4>Contact</h4><p>+971 4 123 4567<br>hello@lilacraft.ae</p></div>
+        <div><h4>Location</h4><p>Dubai Design District<br>Abu Dhabi, Al Reem Island</p></div>
+        <div><h4>Follow</h4><p><i class="fab fa-instagram"></i> <i class="fab fa-linkedin"></i> <i class="fab fa-pinterest"></i></p></div>
+    </div>
+    <div style="text-align:center; margin-top:50px;">© 2025 Lilac Craft — All Rights Reserved</div>
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+<script>
+    // Loader
+    window.addEventListener('load', () => {
+        document.getElementById('loader').classList.add('fade-out');
+        setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
+    });
+
+    // FAST CURSOR - No lag (direct 1:1 mapping)
+    const dot = document.getElementById('cursorDot');
+    const outline = document.getElementById('cursorOutline');
+    document.addEventListener('mousemove', (e) => {
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
+        outline.style.left = e.clientX + 'px';
+        outline.style.top = e.clientY + 'px';
+    });
+
+    // Hover effect on interactive elements
+    const interactive = document.querySelectorAll('a, button, .service-card, .portfolio-item');
+    interactive.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            dot.style.width = '14px';
+            dot.style.height = '14px';
+            outline.style.width = '55px';
+            outline.style.height = '55px';
+            outline.style.borderColor = '#9b4dff';
+        });
+        el.addEventListener('mouseleave', () => {
+            dot.style.width = '8px';
+            dot.style.height = '8px';
+            outline.style.width = '40px';
+            outline.style.height = '40px';
+            outline.style.borderColor = '#c77dff';
+        });
+    });
+
+    // SPARK EFFECT ON CLICK
+    const canvas = document.getElementById('sparkCanvas');
+    const ctx = canvas.getContext('2d');
+    let sparks = [];
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function createSpark(x, y) {
+        const particles = [];
+        for (let i = 0; i < 12; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 3 + 2;
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+            particles.push({
+                x: x, y: y, vx: vx, vy: vy,
+                life: 1, size: Math.random() * 4 + 2,
+                color: `hsl(${260 + Math.random() * 40}, 100%, 65%)`
+            });
+        }
+        sparks.push(...particles);
+    }
+
+    function animateSparks() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = sparks.length-1; i >= 0; i--) {
+            const s = sparks[i];
+            s.x += s.vx;
+            s.y += s.vy;
+            s.vy += 0.2; // gravity
+            s.life -= 0.03;
+            if (s.life <= 0 || s.y > canvas.height + 100) {
+                sparks.splice(i,1);
+                continue;
+            }
+            ctx.globalAlpha = s.life * 0.8;
+            ctx.fillStyle = s.color;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI*2);
+            ctx.fill();
+        }
+        requestAnimationFrame(animateSparks);
+    }
+    animateSparks();
+
+    document.addEventListener('click', (e) => {
+        createSpark(e.clientX, e.clientY);
+        // Also add a tiny flash effect
+        const flash = document.createElement('div');
+        flash.style.position = 'fixed';
+        flash.style.top = e.clientY - 15 + 'px';
+        flash.style.left = e.clientX - 15 + 'px';
+        flash.style.width = '30px';
+        flash.style.height = '30px';
+        flash.style.background = 'radial-gradient(circle, #c77dff, transparent)';
+        flash.style.borderRadius = '50%';
+        flash.style.pointerEvents = 'none';
+        flash.style.zIndex = '10002';
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 200);
+    });
+
+    // Mobile menu
+    document.getElementById('menuIcon').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('active');
+    });
+
+    // Counter animation
+    const counterSection = document.querySelector('.stats');
+    let counted = false;
+    window.addEventListener('scroll', () => {
+        if (!counted && counterSection.getBoundingClientRect().top < window.innerHeight - 100) {
+            counted = true;
+            const years = document.getElementById('years'), projects = document.getElementById('projects'), clients = document.getElementById('clients');
+            let y = 0, p = 0, c = 0;
+            let yI = setInterval(() => { if (y >= 12) clearInterval(yI); else years.innerText = ++y; }, 50);
+            let pI = setInterval(() => { if (p >= 480) clearInterval(pI); else projects.innerText = ++p; }, 15);
+            let cI = setInterval(() => { if (c >= 350) clearInterval(cI); else clients.innerText = ++c; }, 20);
+        }
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => revealObserver.observe(r));
+
+    // Back to top
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) backBtn.classList.add('show');
+        else backBtn.classList.remove('show');
+    });
+    backBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>
